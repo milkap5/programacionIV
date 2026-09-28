@@ -21,5 +21,5 @@ export function loadJson(filePath, timeoutMs = 5000) {
         clearTimeout(timer);
         reject(new Error(`No se pudo leer el archivo: ${err.message}`));
       });
-  }); // <-- Paréntesis que cierra new Promise() y punto y coma
-}   // <-- Llave que cierra la función loadJson
+  });
+}   
