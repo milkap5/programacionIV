@@ -1,6 +1,7 @@
+import { rejects } from 'node:assert';
 import { readFile } from 'node:fs/promises';
 
-export async function loadJson(filePath, timeoutMs = 3000) {
+export async function loadJson(filePath, timeoutMs = 5000) {
   return new Promise((resolve, reject) => {
     // Timer para el Event Loop
     const timer = setTimeout(() => {
@@ -11,11 +12,15 @@ export async function loadJson(filePath, timeoutMs = 3000) {
     readFile(filePath, 'utf-8')
       .then(content => {
         clearTimeout(timer);
-        resolve(JSON.parse(content));
+        try {
+          resolve(JSON.parse(content))
+        } catch (parseErr) {
+          reject(new Error(`JSON invalido en ${filePath}: ${parseErr.message}`))
+        }
       })
       .catch(err => {
         clearTimeout(timer);
-        reject(new Error(`No se pudo leer el archivo: ${err.message}`));
-      });
-  });
+        reject(new Error(`No se pudo leer el archivo ${err.message}`))
+      })
+  }
 }
