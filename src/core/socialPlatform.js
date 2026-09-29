@@ -10,27 +10,55 @@ export function createSocialPlatform(){
     return {
         async initialize(usersPath, postsPath){
             try{
-                const [rawUsers, rawPosts] = await Promise.all([loadJson(usersPath), loadJson(postsPath)]);
-             
+                const [rawUsers, rawPosts] = await Promise.all([
+                    loadJSON(usersPath),
+                    loadJSON(postsPath)
+                ]);
+
                 users = rawUsers.filter(Validator.isValidUser).map(u => new User(u));
                 posts = rawPosts.filter(Validator.isValidPost).map(p => new Post(p));
-
-                console.log(`Cargados: ${users.length} usuarios y ${posts.length} posteos`)
+            
+                console.log(`Se cargaron ${users.length} usuarios y ${posts.length} posteos`)
             }catch(error){
-                console.error(`Error critico dirante la carga local: `, error.message);
+                console.log(`Hubo un error al cargar los datos:`, error.message);
                 throw error;
             }
         },
 
-       // --manejo de usuarios y metricas--
-
-        findUsersBy(criterio, value){
-            return users.filter(user => user.matchesQuery(criterio, value));
+        findUsersBy(criterion, value){
+            return users.filter(users => users.matchesQuery(criterion, value));
         },
 
         findDuplicateUsers(){
+            //mails q ya vimos
+            const seenEmails = [];
+            //usuarios q ya vimos
+            const seenUser = [];
+            //aca guardo los usuarios duplicados
+            const duplicates = [];
 
+            for (const user of users){
+                const emailDuplicated = seenEmails.includes(user.email);
+                const usernameDuplicated = seenUser.includes(user.username);
+
+                if(emailDuplicated || usernameDuplicated){
+                    duplicates.push({
+                        user,
+                        motivo: emailDuplicated ? 'Email duplicado' : 'Username duplicado';
+                    });
+                }
+
+                seenEmails.push(user.email);
+                seenUser.push(user.username);
+            }
+            return duplicates;
+        },
+
+        getCityWithMostUsers(){
 
         }
+
     }
 }
+
+
