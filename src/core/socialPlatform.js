@@ -55,10 +55,59 @@ export function createSocialPlatform(){
         },
 
         getCityWithMostUsers(){
+            if (users.length === 0) return null;
+
+            //contamos cuantos usuarios hay por ciudad
+            const cityCount = {};
+            for (const user of users){
+                cityCount[user.city] = (cityCount[user.city] || 0) + 1;
+            }
+
+            //encontrar la ciudad con la mayor cantidad de usuarios
+            let topCity = null;
+            let maxCount = -1;
+
+            for (const city in cityCount){
+                if(cityCount[city] > maxCount){
+                    maxCount = cityCount[city];
+                    topCity = city;
+                }
+            }
+
+            return {city: topCity, count: maxCount}
 
         }
 
     }
 }
 
+getCityWithMostUsers(){
+    if (users.length === 0) return null;
 
+    const cityCount = {};
+
+    for (const user of users){
+        cityCount[user.city] = (cityCount[user.city] || 0) + 1;  
+    }
+
+    let topCity = null;
+    let maxCount = -1;
+
+    for (city in cityCount){
+        if(cityCount[city] > maxCount){
+            maxCount = cityCount[city];
+            topCity = city;
+        }
+    }
+
+    return {city: topCity, count: maxCount}
+}
+
+getPostByUserID(userID){
+    const ID = Number(userID);
+    return posts.filter(post => post.userID === ID);
+}
+
+getTopFiveUsers(){
+    
+}

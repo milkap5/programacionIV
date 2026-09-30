@@ -2,10 +2,10 @@ export const Validator = {
     isValidUser(user){
         if (!user || typeof user !== 'object') return false;
 
-        const hasvalidID = typeof user.id === 'number' && !isNaN(user.id);
-        const hasValidEmail = typeof user.email === 'stirng' && user.email.trim().length > 0;
+        const hasvalidID = typeof user.id === number && !isNaN(user.id);
+        const hasValidEmail = typeof user.email === 'string' && user.email.trim().length > 0;
         const hasValidUsername = typeof user.username === 'string' && user.username.trim().length > 0;
-        const hasValidCity = user.address && typeof user.address.city === 'stirng' && user.address.city.trim().length > 0;
+        const hasValidCity = user.address && typeof user.address.city === 'string' && user.address.city.trim().length > 0;
 
         return hasvalidID && hasValidEmail && hasValidUsername && hasValidCity;
     },
@@ -21,4 +21,3 @@ export const Validator = {
         return hasValidUserID && hasValidID && hasValidTitle && hasValidBody;
     }
 }
-
