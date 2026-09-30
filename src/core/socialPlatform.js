@@ -1,4 +1,4 @@
-import { loadJSON } from "../services/dataLoader";
+import { loadJson, loadJSON } from "../services/dataLoader";
 import { Validator } from "../utils/validator";
 import { User } from "../models/User";
 import { Post } from "../models/Post";
